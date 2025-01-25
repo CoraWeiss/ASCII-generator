@@ -48,4 +48,25 @@
         document.getElementById('url-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const imageUrl = document.getElementById('image-url').value;
-            const asciiOutput = document.getElement
+            const asciiOutput = document.getElementById('ascii-output');
+
+            // Function to convert image to ASCII art
+            const imageToAscii = async (url) => {
+                try {
+                    const response = await fetch(`https://asciiartwebapi.com/api?url=${encodeURIComponent(url)}`);
+                    if (response.ok) {
+                        const asciiArt = await response.text();
+                        return asciiArt;
+                    } else {
+                        return 'Failed to fetch the image.';
+                    }
+                } catch (error) {
+                    return 'Error occurred while fetching the image.';
+                }
+            };
+
+            asciiOutput.textContent = await imageToAscii(imageUrl);
+        });
+    </script>
+</body>
+</html>
